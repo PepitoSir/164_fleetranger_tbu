@@ -1,11 +1,15 @@
 # 164_fleetranger_tbu
+
 ## Sommaire
+
+Ici vous allez pouvoir trouver toutes les étapes qui serviront à l'exécution de mon application.
 
 - [Cahiers des charges](#cahiers-des-charges)
 - [Import du projet GitHub](#import-du-projet-github)
 - [Docker](#docker)
 - [Installation de tous les packages](#installation-de-tous-les-packages)
 - [Import dump base de données](#import-dump-base-de-données)
+- [Lancer mon application](#lancer-mon-application)
 
 ## Cahiers des charges
 Mon projet portera sur une base de données réencensant l’intégralité des véhicules (camion, camionnette, voiture) d’une entreprise dans le but géré facilement leurs flottes.<br>
@@ -46,14 +50,26 @@ git clone https://github.com/PepitoSir/164_fleetranger_tbu.git
 
 ## Docker
 
-Pour lancer la base de données de mon projet, veuillez utiliser docker desktop. Ouvrez le projet, puis dans le terminal de PyCharm, exécuter la commande :
+Pour lancer la base de données de mon projet, veuillez utiliser docker desktop.<br>
+Voici comment l'installer depuis le terminal.<br>
+
+Avec winget :
+```
+winget install -e --id Docker.DockerDesktop
+```
+Avec homebrew :
+```
+brew install docker
+```
+Ou directement sur leur site -> [Docker.com](https://www.docker.com/products/docker-desktop/)
+
+Ouvrez le projet, puis dans le terminal de PyCharm, exécuter la commande :
 
 ```bash
 docker-compose up -d
 ```
 Celle là va exécuter le fichier **docker-compose.yml** qui va créer un container avec une base de données MySQL et un container avec un serveur MariaDB.
 
-[Lien téléchargement docker](https://www.docker.com/products/docker-desktop/)
 
 ## Installation de tous les packages
 
