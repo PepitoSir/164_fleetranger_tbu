@@ -59,6 +59,13 @@ Celle là va exécuter le fichier **docker-compose.yml** qui va créer un contai
 
 Dans le but de posséder tous les paquets requis pour exécuter le projet, veuillez ouvrir le terminal et y rentrer la commande :
 
+PowerShell :
+```
+venv\Scripts\Activate
+pip install -r requirements.txt
+```
+
+Bash :
 ```
 . .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
