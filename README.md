@@ -51,8 +51,7 @@ git clone https://github.com/PepitoSir/164_fleetranger_tbu.git
 
 ## Docker
 
-Pour lancer la base de données de mon projet, veuillez utiliser docker desktop.<br>
-Voici comment l'installer depuis un terminal.<br>
+Pour lancer la base de données de mon projet, veuillez utiliser docker desktop. Voici comment l'installer depuis un terminal.<br>
 
 Avec winget :
 ```
