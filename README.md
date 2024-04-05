@@ -61,13 +61,13 @@ Dans le but de posséder tous les paquets requis pour exécuter le projet, veuil
 
 PowerShell :
 ```
-venv\Scripts\Activate
+venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
 Bash :
 ```
-. .venv\Scripts\Activate.ps1
+. .venv\Scripts\Activate
 pip install -r requirements.txt
 ```
 Un message vous disant que tout est installé devrait s'afficher.
