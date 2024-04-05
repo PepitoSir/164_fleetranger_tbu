@@ -108,6 +108,6 @@ Pour stoper l'application faites la combinaison de touche `CTRL+C` ou cliquer su
 
 Voici le lien vous emmenant sur la documentation de mon application. Celle là a été faite à l'aide de l'outils [Sphinx](https://www.sphinx-doc.org/en/master/).
 
-[---->Documentation<----]()
+  [---->Documentation<----]()
 
 Celle là se trouve aussi dans le projet GitHub.
