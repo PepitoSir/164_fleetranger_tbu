@@ -2,14 +2,15 @@
 
 ## Sommaire
 
-Ici vous allez pouvoir trouver toutes les étapes qui serviront à l'exécution de mon application.
+Voici toutes les étapes nécessaires à l'exécution de mon application.
 
 - [Cahiers des charges](#cahiers-des-charges)
 - [Import du projet GitHub](#import-du-projet-github)
 - [Docker](#docker)
-- [Installation de tous les packages](#installation-de-tous-les-packages)
+- [Installation de tous les paquets](#installation-de-tous-les-paquets)
 - [Import dump base de données](#import-dump-base-de-données)
 - [Lancer mon application](#lancer-mon-application)
+- [Documentation](#documentation)
 
 ## Cahiers des charges
 Mon projet portera sur une base de données réencensant l’intégralité des véhicules (camion, camionnette, voiture) d’une entreprise dans le but géré facilement leurs flottes.<br>
@@ -31,17 +32,17 @@ Tout cela aura pour but de faciliter le travail rébarbatif et long de devoir co
  
 Ce projet se fera sur une page web HTML dans laquelle un script Python (Flask) s’occupera de faire les requêtes à la base de données en MySql.
  
-Après la fin de mon projet, qui va utiliser mon "site" avec ma base de données ?<br>
+*Après la fin de mon projet, qui va utiliser mon "site" avec ma base de données ?*<br>
 <br>
 •	Mon but serait de le mettre en ligne pour la suite, pour que toute entreprise possédant une flotte de véhicules, puisse y avoir accès et l’utiliser.<br>
 
-Qui va entrer les données dans ma base de données par l'intermédiaire de mon interface utilisateur ?<br>
+*Qui va entrer les données dans ma base de données par l'intermédiaire de mon interface utilisateur ?*<br>
 <br>
 •	Toute entreprise ayant besoin de mon application.
 
 ## Import du projet GitHub 
 
-Pour importer mon projet sur votre terminal, il vous suffit de rentrer la commande :
+Pour importer mon projet sur votre machine, il vous suffit de rentrer cette commande dans un terminal :
 
 ```
 cd [chemin ou vous voulez cloner le projet]
@@ -51,7 +52,7 @@ git clone https://github.com/PepitoSir/164_fleetranger_tbu.git
 ## Docker
 
 Pour lancer la base de données de mon projet, veuillez utiliser docker desktop.<br>
-Voici comment l'installer depuis le terminal.<br>
+Voici comment l'installer depuis un terminal.<br>
 
 Avec winget :
 ```
@@ -68,10 +69,11 @@ Ouvrez le projet, puis dans le terminal de PyCharm, exécuter la commande :
 ```bash
 docker-compose up -d
 ```
-Celle là va exécuter le fichier **docker-compose.yml** qui va créer un container avec une base de données MySQL et un container avec un serveur MariaDB.
+
+Celle là va exécuter le fichier `docker-compose.yml` qui va créer un container avec une base de données MySQL et un container avec un serveur MariaDB.
 
 
-## Installation de tous les packages
+## Installation de tous les paquets
 
 Dans le but de posséder tous les paquets requis pour exécuter le projet, veuillez ouvrir le terminal et y rentrer la commande :
 
@@ -101,3 +103,11 @@ Pour que l'application flask se lance rendez-vous dans le fichier `164_fleetrang
 Dans le terminal de PyCharm, celui ci devrait vous afficher que l'application est bien lancée et vous donner un adresse IP qui devrait être `http://127.0.0.1:5000`, cliquer sur le lien dans le terminal et une page web devrait s'ouvrir dans votre navigateur avec l'application exécutée.
 
 Pour stoper l'application faites la combinaison de touche `CTRL+C` ou cliquer sur l'icon stop en haut à droite.
+
+## Documentation
+
+Voici le lien vous emmenant sur la documentation de mon application. Celle là a été faite à l'aide de l'outils [Sphinx](https://www.sphinx-doc.org/en/master/).
+
+[---->Documentation<----]()
+
+Celle là se trouve aussi dans le projet GitHub.
