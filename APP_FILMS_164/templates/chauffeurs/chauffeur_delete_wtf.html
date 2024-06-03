@@ -12,27 +12,25 @@
                 {{ form_delete.hidden_tag() }}
                 <table class="table table-bordered table-sm">
                     {% if data_chauffeurs_associes %}
-                        <h3>Ce chauffeur est associé avec le(s) enregistrement(s) suivant(s) :</h3>
-                    {% else %}
-                        <h3>Ce chauffeur à effacer n'est associé à aucun enregistrement.</h3>
-                    {% endif %}
-                    {% if data_chauffeurs_associes %}
+                        <h3>Ce chauffeur est associé avec le(s) camion(s) suivant(s) :</h3>
                         <thead>
                             <tr>
-                                <th>
-                                    ENREGISTREMENT(S)
-                                </th>
+                                <th>ID Camion</th>
+                                <th>Marque</th>
+                                <th>Modèle</th>
                             </tr>
                         </thead>
-                        {% for row in data_chauffeurs_associes %}
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        {{ row.nom_enregistrement }}
-                                    </td>
-                                </tr>
-                            </tbody>
+                        <tbody>
+                        {% for camion in data_chauffeurs_associes %}
+                            <tr>
+                                <td>{{ camion.Id_camion }}</td>
+                                <td>{{ camion.Marque }}</td>
+                                <td>{{ camion.Modele }}</td>
+                            </tr>
                         {% endfor %}
+                        </tbody>
+                    {% else %}
+                        <h3>Ce chauffeur n'est associé à aucun camion.</h3>
                     {% endif %}
                 </table>
 

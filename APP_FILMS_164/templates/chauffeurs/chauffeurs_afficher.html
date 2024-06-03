@@ -26,6 +26,9 @@
                         <th class="align-middle">
                             Catégorie de permis
                         </th>
+                        <th class="align-middle">
+                            Camion
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,10 +49,13 @@
                         <td class="align-middle">
                             {{ row.CategoriePermis }}
                         </td>
+                        <td class="align-middle">
+                            {{ row.Id_camion }}
+                        </td>
                         <td class="text-center align-middle">
                             <a class="btn btn-primary" href="{{ url_for('chauffeurs_ajouter_wtf') }}" role="button">Ajouter</a>
-                            <a class="btn btn-warning" href="{{ url_for('chauffeur_update_wtf', id_chauffeur_btn_edit_html=row.Id_chauffeur) }}" role="button">Edit</a>
-                            <a class="btn btn-danger" href="{{ url_for('chauffeur_delete_wtf', id_chauffeur_btn_delete_html=row.Id_chauffeur) }}" role="button">Delete</a>
+                            <a class="btn btn-warning" href="{{ url_for('chauffeur_update_wtf', id_chauffeur_btn_edit_html=row.Id_Chauffeur) }}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="{{ url_for('chauffeur_delete_wtf', id_chauffeur_btn_delete_html=row.Id_Chauffeur) }}" role="button">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
