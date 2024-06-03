@@ -74,17 +74,19 @@ Celle là va exécuter le fichier `docker-compose.yml` qui va créer un containe
 
 ## Installation de tous les paquets
 
-Dans le but de posséder tous les paquets requis pour exécuter le projet, veuillez ouvrir le terminal et y rentrer la commande :
+Dans le but de posséder tous les paquets et dépendances python requisent pour exécuter le projet, ouvrez votre terminal et entrer-y la commande suivante :
 
 PowerShell :
 ```
-python -m venv .venv  
+python -m venv .venv
+.\.venv\Scripts\Activate
 pip install -r requirements.txt
 ```
 
 Bash :
 ```
-. .venv\Scripts\Activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 Un message vous disant que tout est installé devrait s'afficher.
