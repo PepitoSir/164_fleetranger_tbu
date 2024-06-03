@@ -78,7 +78,7 @@ Dans le but de posséder tous les paquets requis pour exécuter le projet, veuil
 
 PowerShell :
 ```
-venv\Scripts\Activate.ps1
+python -m venv .venv  
 pip install -r requirements.txt
 ```
 
