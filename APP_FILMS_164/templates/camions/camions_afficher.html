@@ -21,10 +21,16 @@
                             Modèle
                         </th>
                         <th class="align-middle">
-                            Date de construction
+                            Km Totaux
                         </th>
                         <th class="align-middle">
-                            Actions
+                            Carburant
+                        </th>
+                        <th class="align-middle">
+                            Charge
+                        </th>
+                        <th class="align-middle">
+                            Disponibilité
                         </th>
                     </tr>
                 </thead>
@@ -32,7 +38,7 @@
                 {% for row in data %}
                     <tr>
                         <td class="align-middle">
-                            {{ row.id_camion }}
+                            {{ row.Id_camion }}
                         </td>
                         <td class="align-middle">
                             {{ row.Marque }}
@@ -41,7 +47,16 @@
                             {{ row.Modele }}
                         </td>
                         <td class="align-middle">
-                            {{ row.DateConstruction }}
+                            {{ row.KmTotaux }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Carburant }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Charge }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Disponibilité }}
                         </td>
                         <td class="text-center align-middle">
                             <a class="btn btn-primary" href="{{ url_for('camions_ajouter_wtf') }}" role="button">Ajouter</a>
