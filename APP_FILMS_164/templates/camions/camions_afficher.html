@@ -2,11 +2,11 @@
 {% block title %} Afficher camions {% endblock %}
 {% block body %}
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<p>
-				Liste des camions
-			</p>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Liste des camions
+            </p>
             <table class="table table-bordered table-sm">
             {% if data %}
                 <thead>
@@ -15,59 +15,54 @@
                             Id
                         </th>
                         <th class="align-middle">
-                            Camion
+                            Marque
                         </th>
                         <th class="align-middle">
-							Date insertion (pour exemple)
+                            Modèle
                         </th>
                         <th class="align-middle">
-
+                            Date de construction
                         </th>
                         <th class="align-middle">
-
+                            Actions
                         </th>
                     </tr>
                 </thead>
-            {% endif %}
-
-            {% for row in data %}
-				<tbody>
-					<tr>
-						<td class="align-middle">
-							{{ row.id_camion }}
-						</td>
-						<td class="align-middle">
-							{{ row.intitule_camion }}
-						</td>
-						<td class="align-middle">
-							{{ row.date_ins_camion}}
-						</td>
-						<td class="text-center" class="align-middle">
-							<a class="btn btn-primary" href="{{ url_for('camions_ajouter_wtf') }}" role="button">Ajouter</a>
-						</td>
-						<td class="text-center" class="align-middle">
-							<a class="btn btn-warning" href="{{ url_for('camion_update_wtf', id_camion_btn_edit_html=row.id_camion) }}" role="button">Edit</a>
-						</td>
-						<td class="text-center" class="align-middle">
-							<a class="btn btn-danger" href="{{ url_for('camion_delete_wtf', id_camion_btn_delete_html=row.camion) }}" role="button">Delete</a>
-						</td>
-					</tr>
-				</tbody>
+                <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td class="align-middle">
+                            {{ row.id_camion }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Marque }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.Modele }}
+                        </td>
+                        <td class="align-middle">
+                            {{ row.DateConstruction }}
+                        </td>
+                        <td class="text-center align-middle">
+                            <a class="btn btn-primary" href="{{ url_for('camions_ajouter_wtf') }}" role="button">Ajouter</a>
+                            <a class="btn btn-warning" href="{{ url_for('camion_update_wtf', id_camion_btn_edit_html=row.id_camion) }}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="{{ url_for('camion_delete_wtf', id_camion_btn_delete_html=row.id_camion) }}" role="button">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
             {% else %}
-				<tbody>
-					<tr>
-						<td>
-							Aucun camion.
-						</td>
-						<td>
-							<a class="btn btn-primary" href="{{ url_for('camions_ajouter_wtf') }}" role="button">Ajouter</a>
-						</td>
-					</tr>
-				</tbody>
-            {% endfor %}
-			</table>
-		</div>
-	</div>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Aucun camion.
+                            <a class="btn btn-primary" href="{{ url_for('camions_ajouter_wtf') }}" role="button">Ajouter</a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endif %}
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
-

@@ -122,6 +122,23 @@ class ExceptionFilmDeleteWtf(Base):
 class ExceptionInitAppFilms164(Base):
     pass
 
+class ExceptionCamionsAfficher(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+class ExceptionCamionsAjouterWtf(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+class ExceptionCamionUpdateWtf(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+class ExceptionCamionDeleteWtf(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
 
 """
     Grâce à la méthode "flash" cela permet de "raise" (remonter) les erreurs "try...execpt" dans la page "home.html"

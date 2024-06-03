@@ -1,28 +1,90 @@
 {% extends "base.html" %}
-{% block title %} Ajouter un GENRE (WTF) {% endblock %}
+{% block title %} Ajouter un Camion (WTF) {% endblock %}
 {% block body %}
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<p>
-				Ajouter un nouveau GENRE (WTForms)
-			</p>
-			<form action="" method="POST" novalidate>
-				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form.hidden_tag() }}
-				<div class="form-group">
-					<p>
-						{{ form.nom_genre_wtf.label }}<br>
-						{{ form.nom_genre_wtf(size=32) }}<br>
-						{% for error in form.nom_genre_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-				</div>
-				{{ form.submit(class="btn btn-primary") }}
-			</form>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Ajouter un nouveau Camion (WTForms)
+            </p>
+            <form action="" method="POST" novalidate>
+                <!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <p>
+                        {{ form.vin_wtf.label }}<br>
+                        {{ form.vin_wtf(size=32) }}<br>
+                        {% for error in form.vin_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.marque_wtf.label }}<br>
+                        {{ form.marque_wtf(size=32) }}<br>
+                        {% for error in form.marque_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.modele_wtf.label }}<br>
+                        {{ form.modele_wtf(size=32) }}<br>
+                        {% for error in form.modele_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.date_construction_wtf.label }}<br>
+                        {{ form.date_construction_wtf(size=32) }}<br>
+                        {% for error in form.date_construction_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.annee_achat_wtf.label }}<br>
+                        {{ form.annee_achat_wtf(size=32) }}<br>
+                        {% for error in form.annee_achat_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.km_totaux_wtf.label }}<br>
+                        {{ form.km_totaux_wtf(size=32) }}<br>
+                        {% for error in form.km_totaux_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.carburant_wtf.label }}<br>
+                        {{ form.carburant_wtf(size=32) }}<br>
+                        {% for error in form.carburant_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.charge_wtf.label }}<br>
+                        {{ form.charge_wtf(size=32) }}<br>
+                        {% for error in form.charge_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.hauteur_wtf.label }}<br>
+                        {{ form.hauteur_wtf(size=32) }}<br>
+                        {% for error in form.hauteur_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.disponibilite_wtf.label }}<br>
+                        {{ form.disponibilite_wtf(size=32) }}<br>
+                        {% for error in form.disponibilite_wtf.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
-
