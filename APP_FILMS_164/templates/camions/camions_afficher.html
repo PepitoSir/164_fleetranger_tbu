@@ -45,8 +45,8 @@
                         </td>
                         <td class="text-center align-middle">
                             <a class="btn btn-primary" href="{{ url_for('camions_ajouter_wtf') }}" role="button">Ajouter</a>
-                            <a class="btn btn-warning" href="{{ url_for('camion_update_wtf', id_camion_btn_edit_html=row.id_camion) }}" role="button">Edit</a>
-                            <a class="btn btn-danger" href="{{ url_for('camion_delete_wtf', id_camion_btn_delete_html=row.id_camion) }}" role="button">Delete</a>
+                            <a class="btn btn-warning" href="{{ url_for('camion_update_wtf', id_camion_btn_edit_html=row.Id_camion) }}" role="button">Edit</a>
+                            <a class="btn btn-danger" href="{{ url_for('camion_delete_wtf', id_camion_btn_delete_html=row.Id_camion) }}" role="button">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -91,7 +91,7 @@ def camions_ajouter_wtf():
 
 @app.route("/camion_update", methods=['GET', 'POST'])
 def camion_update_wtf():
-    id_camion_update = request.values['id_camion_btn_edit_html']
+    id_camion_update = request.values.get('id_camion_btn_edit_html')
     form_update = FormWTFUpdateCamion()
     try:
         if request.method == "POST" and form_update.submit.data:
@@ -130,13 +130,17 @@ def camion_update_wtf():
             flash(f"Donnée mise à jour !!", "success")
             return redirect(url_for('camions_afficher', order_by="ASC", id_camion_sel=id_camion_update))
         elif request.method == "GET":
+            if not id_camion_update:
+                flash(f"Le camion demandé n'existe pas !!", "warning")
+                return redirect(url_for('camions_afficher', order_by="ASC", id_camion_sel=0))
+
             str_sql_id_camion = "SELECT Id_camion, VIN, Marque, Modele, DateConstruction, AnneedAchat, KmTotaux, Carburant, Charge, Hauteur, Disponibilité FROM camion WHERE Id_camion = %(value_id_camion)s"
             valeur_select_dictionnaire = {"value_id_camion": id_camion_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_camion, valeur_select_dictionnaire)
             data_nom_camion = mybd_conn.fetchone()
 
-            if data_nom_camion:  # Add this check to avoid 'NoneType' object is not subscriptable
+            if data_nom_camion:
                 form_update.vin_update_wtf.data = data_nom_camion["VIN"]
                 form_update.marque_update_wtf.data = data_nom_camion["Marque"]
                 form_update.modele_update_wtf.data = data_nom_camion["Modele"]
@@ -159,11 +163,12 @@ def camion_update_wtf():
     return render_template("camions/camion_update_wtf.html", form_update=form_update)
 
 
+
 @app.route("/camion_delete", methods=['GET', 'POST'])
 def camion_delete_wtf():
     data_camions_associes = None
     btn_submit_del = None
-    id_camion_delete = request.values['id_camion_btn_delete_html']
+    id_camion_delete = request.values.get('id_camion_btn_delete_html')
     form_delete = FormWTFDeleteCamion()
     try:
         if request.method == "POST" and form_delete.validate_on_submit():
@@ -172,7 +177,7 @@ def camion_delete_wtf():
                 return redirect(url_for("camions_afficher", order_by="ASC", id_camion_sel=0))
 
             if form_delete.submit_btn_conf_del.data:
-                data_camions_associes = session['data_camions_associes']
+                data_camions_associes = session.get('data_camions_associes', None)
                 flash(f"Effacer le camion de façon définitive de la BD !!!", "danger")
                 btn_submit_del = True
 
@@ -187,6 +192,10 @@ def camion_delete_wtf():
                 return redirect(url_for('camions_afficher', order_by="ASC", id_camion_sel=0))
 
         if request.method == "GET":
+            if not id_camion_delete:
+                flash(f"Le camion demandé n'existe pas !!", "warning")
+                return redirect(url_for('camions_afficher', order_by="ASC", id_camion_sel=0))
+
             valeur_select_dictionnaire = {"value_id_camion": id_camion_delete}
 
             str_sql_camions_associes = """SELECT Assurance.Id_Assurance, Assurance.Compagnie, Assurance.NumPolice FROM Assurance
@@ -200,7 +209,7 @@ def camion_delete_wtf():
                 mydb_conn.execute(str_sql_id_camion, valeur_select_dictionnaire)
                 data_nom_camion = mydb_conn.fetchone()
 
-                if data_nom_camion:  # Add this check to avoid 'NoneType' object is not subscriptable
+                if data_nom_camion:
                     form_delete.nom_camion_delete_wtf.data = data_nom_camion["Marque"]
                 else:
                     flash(f"Le camion demandé n'existe pas !!", "warning")
