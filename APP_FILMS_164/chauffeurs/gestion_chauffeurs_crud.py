@@ -157,8 +157,8 @@ def chauffeur_delete_wtf(id_chauffeur_delete):
         if request.method == "GET":
             valeur_select_dictionnaire = {"value_id_chauffeur": id_chauffeur_delete}
 
-            str_sql_chauffeurs_associes = """SELECT Camion.Id_camion, Camion.Marque, Camion.Modele FROM Camion
-                                             WHERE Id_Chauffeur = %(value_id_chauffeur)s"""
+            str_sql_chauffeurs_associes = """SELECT camion.Id_camion, camion.Marque, camion.Modele FROM camion
+                                             WHERE Id_camion IN (SELECT Id_camion FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur)s)"""
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_chauffeurs_associes, valeur_select_dictionnaire)
                 data_chauffeurs_associes = mydb_conn.fetchall()
@@ -186,6 +186,7 @@ def chauffeur_delete_wtf(id_chauffeur_delete):
                            btn_submit_del=btn_submit_del,
                            data_chauffeurs_associes=data_chauffeurs_associes,
                            id_chauffeur=id_chauffeur_delete)
+
 
 
 

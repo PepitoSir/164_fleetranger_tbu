@@ -32,14 +32,7 @@ class FormWTFUpdateChauffeur(FlaskForm):
 
 
 class FormWTFDeleteChauffeur(FlaskForm):
-    """
-        Formulaire pour effacer un chauffeur.
-        nom_chauffeur_delete_wtf : Champ qui reçoit la valeur du nom du chauffeur, lecture seule. (readonly=true)
-        submit_btn_del : Bouton d'effacement "DEFINITIF".
-        submit_btn_conf_del : Bouton de confirmation pour effacer un "chauffeur".
-        submit_btn_annuler : Bouton qui permet d'annuler l'opération.
-    """
-    nom_chauffeur_delete_wtf = StringField("Effacer ce chauffeur")
-    submit_btn_del = SubmitField("Effacer chauffeur")
-    submit_btn_conf_del = SubmitField("Etes-vous sûr d'effacer ?")
+    nom_chauffeur_delete_wtf = StringField("Nom du chauffeur", validators=[DataRequired()])
+    submit_btn_conf_del = SubmitField("Confirmer la suppression")
+    submit_btn_del = SubmitField("Effacer définitivement")
     submit_btn_annuler = SubmitField("Annuler")
