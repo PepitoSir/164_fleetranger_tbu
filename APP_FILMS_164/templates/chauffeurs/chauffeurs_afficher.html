@@ -32,9 +32,10 @@
                             <td>{{ chauffeur.Prénom }}</td>
                             <td>{{ chauffeur.CategoriePermis }}</td>
                             <td>{{ chauffeur.DateEngagement }}</td>
-                            <td>
-                                <a href="{{ url_for('chauffeur_update_wtf', id_chauffeur_update=chauffeur.Id_Chauffeur) }}" class="btn btn-primary">Modifier</a>
-                                <a href="{{ url_for('chauffeur_delete_wtf', id_chauffeur_delete=chauffeur.Id_Chauffeur) }}" class="btn btn-danger">Supprimer</a>
+                            <td class="text-center align-middle">
+                                <a class="btn btn-primary" href="{{ url_for('chauffeurs_ajouter_wtf') }}" role="button">Ajouter</a>
+                                <a class="btn btn-warning" href="{{ url_for('chauffeur_update_wtf', id_chauffeur_update=chauffeur.Id_Chauffeur) }}" role="button">Edit</a>
+                                <a class="btn btn-danger" href="{{ url_for('chauffeur_delete_wtf', id_chauffeur_delete=chauffeur.Id_Chauffeur) }}" role="button">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}

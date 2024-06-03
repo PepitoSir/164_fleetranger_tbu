@@ -75,12 +75,11 @@ def chauffeurs_ajouter_wtf():
     return render_template("chauffeurs/chauffeurs_ajouter_wtf.html", form=form)
 
 
-@app.route("/chauffeur_update", methods=['GET', 'POST'])
-def chauffeur_update_wtf():
-    id_chauffeur_update = request.values.get('id_chauffeur_btn_edit_html')
+@app.route("/chauffeur_update/<int:id_chauffeur_update>", methods=['GET', 'POST'])
+def chauffeur_update_wtf(id_chauffeur_update):
     form_update = FormWTFUpdateChauffeur()
     try:
-        if request.method == "POST" and form_update.submit.data:
+        if request.method == "POST" and form_update.validate_on_submit():
             nom = form_update.nom_update_wtf.data
             prenom = form_update.prenom_update_wtf.data
             categorie_permis = form_update.categorie_permis_update_wtf.data
@@ -97,22 +96,19 @@ def chauffeur_update_wtf():
             }
 
             str_sql_update_chauffeur = """UPDATE Chauffeur SET Nom = %(nom)s, Prénom = %(prenom)s, CategoriePermis = %(categorie_permis)s, 
-                                       DateEngagement = %(date_engagement)s, Id_camion = %(id_camion)s WHERE Id_Chauffeur = %(id_chauffeur)s"""
+                                           DateEngagement = %(date_engagement)s, Id_camion = %(id_camion)s WHERE Id_Chauffeur = %(id_chauffeur)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_chauffeur, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             return redirect(url_for('chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=id_chauffeur_update))
-        elif request.method == "GET":
-            if not id_chauffeur_update:
-                flash(f"Le chauffeur demandé n'existe pas !!", "warning")
-                return redirect(url_for('chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=0))
 
+        elif request.method == "GET":
             str_sql_id_chauffeur = "SELECT Id_Chauffeur, Nom, Prénom, CategoriePermis, DateEngagement, Id_camion FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur)s"
             valeur_select_dictionnaire = {"value_id_chauffeur": id_chauffeur_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_chauffeur, valeur_select_dictionnaire)
-            data_nom_chauffeur = mybd_conn.fetchone()
+                data_nom_chauffeur = mybd_conn.fetchone()
 
             if data_nom_chauffeur:
                 form_update.nom_update_wtf.data = data_nom_chauffeur["Nom"]
@@ -126,10 +122,11 @@ def chauffeur_update_wtf():
 
     except Exception as e:
         raise ExceptionChauffeurUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
-                                       f"{chauffeur_update_wtf.__name__} ; "
-                                       f"{str(e)}")
+                                          f"{chauffeur_update_wtf.__name__} ; "
+                                          f"{str(e)}")
 
-    return render_template("chauffeurs/chauffeur_update_wtf.html", form_update=form_update)
+    return render_template("chauffeurs/chauffeur_update_wtf.html", form_update=form_update, id_chauffeur_update=id_chauffeur_update)
+
 
 @app.route("/chauffeur_delete/<int:id_chauffeur_delete>", methods=['GET', 'POST'])
 def chauffeur_delete_wtf(id_chauffeur_delete):
@@ -189,6 +186,7 @@ def chauffeur_delete_wtf(id_chauffeur_delete):
                            btn_submit_del=btn_submit_del,
                            data_chauffeurs_associes=data_chauffeurs_associes,
                            id_chauffeur=id_chauffeur_delete)
+
 
 
 
