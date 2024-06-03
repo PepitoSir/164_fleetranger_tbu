@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <h2>Modifier un Chauffeur et Camion</h2>
-            <form action="{{ url_for('chauffeur_camions_update_wtf', id_chauffeur_update=id_chauffeur_update) }}" method="POST" novalidate>
+            <form action="{{ url_for('gestion_chauffeurs_camions.chauffeur_update_wtf', id_chauffeur_update=id_chauffeur_update) }}" method="POST" novalidate>
                 {{ form_update.hidden_tag() }}
 
                 <div class="form-group">

@@ -186,12 +186,3 @@ def chauffeur_delete_wtf(id_chauffeur_delete):
                            btn_submit_del=btn_submit_del,
                            data_chauffeurs_associes=data_chauffeurs_associes,
                            id_chauffeur=id_chauffeur_delete)
-
-
-
-
-
-
-
-
-

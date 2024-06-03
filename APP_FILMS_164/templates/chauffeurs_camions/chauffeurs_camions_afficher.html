@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Liste des Chauffeurs et Camions{% endblock %}
+{% block title %}Liste des Chauffeurs{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Liste des Chauffeurs et Camions</h2>
+            <h2>Liste des Chauffeurs</h2>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -16,28 +16,26 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>ID Chauffeur</th>
+                        <th>ID</th>
                         <th>Nom</th>
                         <th>Prénom</th>
-                        <th>ID Camion</th>
-                        <th>Marque</th>
-                        <th>Modèle</th>
+                        <th>Catégorie Permis</th>
+                        <th>Date Engagement</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data %}
+                    {% for chauffeur in data %}
                         <tr>
-                            <td>{{ row.Id_Chauffeur }}</td>
-                            <td>{{ row.Nom }}</td>
-                            <td>{{ row.Prénom }}</td>
-                            <td>{{ row.Id_camion }}</td>
-                            <td>{{ row.Marque }}</td>
-                            <td>{{ row.Modele }}</td>
+                            <td>{{ chauffeur.Id_Chauffeur }}</td>
+                            <td>{{ chauffeur.Nom }}</td>
+                            <td>{{ chauffeur.Prénom }}</td>
+                            <td>{{ chauffeur.CategoriePermis }}</td>
+                            <td>{{ chauffeur.DateEngagement }}</td>
                             <td class="text-center align-middle">
-                                <a class="btn btn-primary" href="{{ url_for('gestion_chauffeurs_camions.chauffeurs_camions_afficher', order_by='ASC', id_chauffeur_sel=0) }}" role="button">Ajouter</a>
-                                <a class="btn btn-warning" href="{{ url_for('gestion_chauffeurs_camions.chauffeur_camion_update_wtf', id_chauffeur_update=row.Id_Chauffeur) }}" role="button">Edit</a>
-                                <a class="btn btn-danger" href="{{ url_for('gestion_chauffeurs_camions.chauffeur_camion_delete_wtf', id_chauffeur_delete=row.Id_Chauffeur) }}" role="button">Delete</a>
+                                <a class="btn btn-primary" href="{{ url_for('gestion_chauffeurs.chauffeurs_ajouter_wtf') }}" role="button">Ajouter</a>
+                                <a class="btn btn-warning" href="{{ url_for('gestion_chauffeurs.chauffeur_update_wtf', id_chauffeur_update=chauffeur.Id_Chauffeur) }}" role="button">Edit</a>
+                                <a class="btn btn-danger" href="{{ url_for('gestion_chauffeurs.chauffeur_delete_wtf', id_chauffeur_delete=chauffeur.Id_Chauffeur) }}" role="button">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
