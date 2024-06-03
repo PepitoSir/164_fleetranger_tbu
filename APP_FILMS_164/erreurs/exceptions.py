@@ -137,6 +137,41 @@ class ExceptionCamionUpdateWtf(Exception):
 class ExceptionCamionDeleteWtf(Exception):
     def __init__(self, message):
         super().__init__(message)
+class ExceptionChauffeursAfficher(Exception):
+    """
+    Exception levée lors d'une erreur dans l'affichage des chauffeurs.
+    """
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
+class ExceptionChauffeursAjouterWtf(Exception):
+    """
+    Exception levée lors d'une erreur dans l'ajout d'un chauffeur avec WTF.
+    """
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
+class ExceptionChauffeurUpdateWtf(Exception):
+    """
+    Exception levée lors d'une erreur dans la mise à jour d'un chauffeur avec WTF.
+    """
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
+class ExceptionChauffeurDeleteWtf(Exception):
+    """
+    Exception levée lors d'une erreur dans la suppression d'un chauffeur avec WTF.
+    """
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
 
 
 
