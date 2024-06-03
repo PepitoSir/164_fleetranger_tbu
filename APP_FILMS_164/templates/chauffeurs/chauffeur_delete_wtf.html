@@ -1,55 +1,56 @@
 {% extends "base.html" %}
-{% block title %} Effacer un Chauffeur (WTF) {% endblock %}
+{% block title %}Effacer un Chauffeur{% endblock %}
+
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <p>
-                Effacer un Chauffeur
-            </p>
-            <form action="" method="POST" novalidate>
-                <!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+            <h2>Effacer un Chauffeur</h2>
+            <form action="{{ url_for('chauffeur_delete_wtf', id_chauffeur_delete=id_chauffeur) }}" method="POST" novalidate>
                 {{ form_delete.hidden_tag() }}
+
+                {% if data_chauffeurs_associes %}
+                <h3>Ce chauffeur est associé avec le(s) camion(s) suivant(s) :</h3>
                 <table class="table table-bordered table-sm">
-                    {% if data_chauffeurs_associes %}
-                        <h3>Ce chauffeur est associé avec le(s) camion(s) suivant(s) :</h3>
-                        <thead>
-                            <tr>
-                                <th>ID Camion</th>
-                                <th>Marque</th>
-                                <th>Modèle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for camion in data_chauffeurs_associes %}
-                            <tr>
-                                <td>{{ camion.Id_camion }}</td>
-                                <td>{{ camion.Marque }}</td>
-                                <td>{{ camion.Modele }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    {% else %}
-                        <h3>Ce chauffeur n'est associé à aucun camion.</h3>
-                    {% endif %}
+                    <thead>
+                        <tr>
+                            <th>ID Camion</th>
+                            <th>Marque</th>
+                            <th>Modèle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for camion in data_chauffeurs_associes %}
+                        <tr>
+                            <td>{{ camion.Id_camion }}</td>
+                            <td>{{ camion.Marque }}</td>
+                            <td>{{ camion.Modele }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
                 </table>
+                {% else %}
+                <h3>Ce chauffeur n'est associé à aucun camion.</h3>
+                {% endif %}
 
                 <div class="form-group">
-                    <p>
-                        {{ form_delete.nom_chauffeur_delete_wtf.label }}<br>
-                        {{ form_delete.nom_chauffeur_delete_wtf(size=32, readonly=true) }}<br>
-                        {% for error in form_delete.nom_chauffeur_delete_wtf.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
+                    <label>{{ form_delete.nom_chauffeur_delete_wtf.label }}</label>
+                    {{ form_delete.nom_chauffeur_delete_wtf(class="form-control", readonly=true) }}<br>
+                    {% for error in form_delete.nom_chauffeur_delete_wtf.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
                 </div>
+
+                <!-- Bouton de confirmation initiale de suppression -->
                 {{ form_delete.submit_btn_conf_del(class="btn btn-info") }}
 
                 {% if btn_submit_del %}
-                    {{ form_delete.submit_btn_del(class="btn btn-danger") }}
+                    <button type="submit" name="submit_btn_del" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir effacer ce chauffeur définitivement ?');">
+                        Effacer définitivement
+                    </button>
                 {% endif %}
 
-                {{ form_delete.submit_btn_annuler(class="btn btn-primary") }}
+                {{ form_delete.submit_btn_annuler(class="btn btn-secondary") }}
             </form>
         </div>
     </div>

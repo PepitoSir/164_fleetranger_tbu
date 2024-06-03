@@ -38,6 +38,7 @@ def chauffeurs_afficher(order_by, id_chauffeur_sel):
     return render_template("chauffeurs/chauffeurs_afficher.html", data=data_chauffeurs)
 
 
+
 @app.route("/chauffeurs_ajouter", methods=['GET', 'POST'])
 def chauffeurs_ajouter_wtf():
     form = FormWTFAjouterChauffeurs()
@@ -58,8 +59,7 @@ def chauffeurs_ajouter_wtf():
                     "id_camion": id_camion
                 }
 
-                strsql_insert_chauffeur = """INSERT INTO Chauffeur 
-                                          (Nom, Prénom, CategoriePermis, DateEngagement, Id_camion) 
+                strsql_insert_chauffeur = """INSERT INTO Chauffeur (Nom, Prénom, CategoriePermis, DateEngagement, Id_camion) 
                                           VALUES (%(nom)s, %(prenom)s, %(categorie_permis)s, %(date_engagement)s, %(id_camion)s)"""
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_chauffeur, valeurs_insertion_dictionnaire)
@@ -131,16 +131,14 @@ def chauffeur_update_wtf():
 
     return render_template("chauffeurs/chauffeur_update_wtf.html", form_update=form_update)
 
-
-@app.route("/chauffeur_delete", methods=['GET', 'POST'])
-def chauffeur_delete_wtf():
+@app.route("/chauffeur_delete/<int:id_chauffeur_delete>", methods=['GET', 'POST'])
+def chauffeur_delete_wtf(id_chauffeur_delete):
+    form_delete = FormWTFDeleteChauffeur()
     data_chauffeurs_associes = None
     btn_submit_del = None
-    id_chauffeur_delete = request.values.get('id_chauffeur_btn_delete_html')
-    form_delete = FormWTFDeleteChauffeur()
+
     try:
         if request.method == "POST" and form_delete.validate_on_submit():
-
             if form_delete.submit_btn_annuler.data:
                 return redirect(url_for("chauffeurs_afficher", order_by="ASC", id_chauffeur_sel=0))
 
@@ -160,14 +158,10 @@ def chauffeur_delete_wtf():
                 return redirect(url_for('chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=0))
 
         if request.method == "GET":
-            if not id_chauffeur_delete:
-                flash(f"Le chauffeur demandé n'existe pas !!", "warning")
-                return redirect(url_for('chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=0))
-
             valeur_select_dictionnaire = {"value_id_chauffeur": id_chauffeur_delete}
 
-            str_sql_chauffeurs_associes = """SELECT Assurance.Id_Assurance, Assurance.Compagnie, Assurance.NumPolice FROM Assurance
-                                          WHERE Id_Chauffeur = %(value_id_chauffeur)s"""
+            str_sql_chauffeurs_associes = """SELECT Camion.Id_camion, Camion.Marque, Camion.Modele FROM Camion
+                                             WHERE Id_Chauffeur = %(value_id_chauffeur)s"""
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_chauffeurs_associes, valeur_select_dictionnaire)
                 data_chauffeurs_associes = mydb_conn.fetchall()
@@ -187,10 +181,18 @@ def chauffeur_delete_wtf():
 
     except Exception as e:
         raise ExceptionChauffeurDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                       f"{chauffeur_delete_wtf.__name__} ; "
-                                       f"{str(e)}")
+                                          f"{chauffeur_delete_wtf.__name__} ; "
+                                          f"{str(e)}")
 
     return render_template("chauffeurs/chauffeur_delete_wtf.html",
                            form_delete=form_delete,
                            btn_submit_del=btn_submit_del,
-                           data_chauffeurs_associes=data_chauffeurs_associes)
+                           data_chauffeurs_associes=data_chauffeurs_associes,
+                           id_chauffeur=id_chauffeur_delete)
+
+
+
+
+
+
+
