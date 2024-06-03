@@ -32,11 +32,11 @@ Tout cela aura pour but de faciliter le travail rébarbatif et long de devoir co
  
 Ce projet se fera sur une page web HTML dans laquelle un script Python (Flask) s’occupera de faire les requêtes à la base de données en MySql.
  
-*Après la fin de mon projet, qui va utiliser mon "site" avec ma base de données ?*<br>
+*- Après la fin de mon projet, qui va utiliser mon "site" avec ma base de données ?*<br>
 <br>
 •	Mon but serait de le mettre en ligne pour la suite, pour que toute entreprise possédant une flotte de véhicules, puisse y avoir accès et l’utiliser.<br>
 
-*Qui va entrer les données dans ma base de données par l'intermédiaire de mon interface utilisateur ?*<br>
+*- Qui va entrer les données dans ma base de données par l'intermédiaire de mon interface utilisateur ?*<br>
 <br>
 •	Toute entreprise ayant besoin de mon application.
 
