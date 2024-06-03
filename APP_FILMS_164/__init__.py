@@ -59,6 +59,12 @@ try:
     from APP_FILMS_164.chauffeurs import gestion_chauffeurs_crud
     from APP_FILMS_164.chauffeurs import gestion_chauffeurs_wtf_forms
 
+    # Importer les blueprints après avoir défini l'application Flask
+    from APP_FILMS_164.chauffeurs_camions.gestion_chauffeurs_camions_crud import bp as gestion_chauffeurs_camions_bp
+
+    # Enregistrer les blueprints
+    app.register_blueprint(gestion_chauffeurs_camions_bp)
+
 except Exception as Exception_init_app_films_164:
     print(f"4567756434 Une erreur est survenue {type(Exception_init_app_films_164)} dans"
           f"__init__ {Exception_init_app_films_164.args}")

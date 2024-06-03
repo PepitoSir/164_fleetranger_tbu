@@ -173,6 +173,24 @@ class ExceptionChauffeurDeleteWtf(Exception):
         super().__init__(self.message)
 
 
+class BaseExceptionChauffeur(Exception):
+    def __init__(self, message):
+        self.message = message
+
+class ExceptionChauffeursCamionsAfficher(BaseExceptionChauffeur):
+    pass
+
+class ExceptionChauffeursCamionsAjouterWtf(BaseExceptionChauffeur):
+    pass
+
+class ExceptionChauffeurCamionsUpdateWtf(BaseExceptionChauffeur):
+    pass
+
+class ExceptionChauffeurCamionsDeleteWtf(BaseExceptionChauffeur):
+    pass
+
+
+
 
 
 """

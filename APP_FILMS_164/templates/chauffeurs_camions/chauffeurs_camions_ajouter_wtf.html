@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Ajouter un Chauffeur et Camion{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Ajouter un Chauffeur et Camion</h2>
+            <form action="{{ url_for('chauffeurs_camions_ajouter_wtf') }}" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    <label>{{ form.nom_wtf.label }}</label>
+                    {{ form.nom_wtf(class="form-control") }}<br>
+                    {% for error in form.nom_wtf.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.prenom_wtf.label }}</label>
+                    {{ form.prenom_wtf(class="form-control") }}<br>
+                    {% for error in form.prenom_wtf.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.categorie_permis_wtf.label }}</label>
+                    {{ form.categorie_permis_wtf(class="form-control") }}<br>
+                    {% for error in form.categorie_permis_wtf.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.date_engagement_wtf.label }}</label>
+                    {{ form.date_engagement_wtf(class="form-control") }}<br>
+                    {% for error in form.date_engagement_wtf.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.id_camion_wtf.label }}</label>
+                    {{ form.id_camion_wtf(class="form-control") }}<br>
+                    {% for error in form.id_camion_wtf.errors %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
