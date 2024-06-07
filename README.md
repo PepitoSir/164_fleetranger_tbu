@@ -105,10 +105,6 @@ Dans le terminal de PyCharm, celui ci devrait vous afficher que l'application es
 
 Pour stoper l'application faites la combinaison de touche `CTRL+C` ou cliquer sur l'icon stop en haut à droite.
 
-## Documentation
-
-Voici le lien vous emmenant sur la documentation de mon application. Celle là a été faite à l'aide de l'outils [Sphinx](https://www.sphinx-doc.org/en/master/).
-
   [---->Documentation<----]()
 
 Celle là se trouve aussi dans le projet GitHub.
