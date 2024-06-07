@@ -1,45 +1,66 @@
-from flask import Blueprint, request, redirect, url_for, flash, render_template, session
+from pathlib import Path
+from flask import redirect, request, session, url_for, flash, render_template
+from APP_FILMS_164 import app
 from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.chauffeurs.gestion_chauffeurs_wtf_forms import FormWTFAjouterChauffeurs, FormWTFUpdateChauffeur, FormWTFDeleteChauffeur
+from APP_FILMS_164.erreurs.exceptions import ExceptionChauffeursAfficher, ExceptionChauffeursAjouterWtf, \
+    ExceptionChauffeurUpdateWtf, ExceptionChauffeurDeleteWtf
+from APP_FILMS_164.chauffeurs_camions.gestion_chauffeurs_camions_wtf_forms import FormWTFAjouterChauffeursCamions, \
+    FormWTFDeleteChauffeurCamion, FormWTFUpdateChauffeurCamion
 
-bp = Blueprint('gestion_chauffeurs', __name__)
 
-@bp.route("/chauffeurs_afficher/<string:order_by>/<int:id_chauffeur_sel>", methods=['GET', 'POST'])
-def chauffeurs_afficher(order_by, id_chauffeur_sel):
+@app.route("/chauffeurs_camions_afficher/<string:order_by>/<int:id_chauffeur_camion_sel>", methods=['GET', 'POST'])
+def chauffeurs_camions_afficher(order_by, id_chauffeur_camion_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                if order_by == "ASC" and id_chauffeur_sel == 0:
-                    strsql_chauffeurs_afficher = """SELECT * FROM Chauffeur ORDER BY Id_Chauffeur ASC"""
-                    mc_afficher.execute(strsql_chauffeurs_afficher)
+                if order_by == "ASC" and id_chauffeur_camion_sel == 0:
+                    strsql_chauffeurs_camions_afficher = """SELECT Chauffeur.Id_Chauffeur, Chauffeur.Nom, Chauffeur.Prénom, 
+                                                                Chauffeur.CategoriePermis, Chauffeur.DateEngagement, 
+                                                                camion.Marque, camion.Modele
+                                                             FROM Chauffeur
+                                                             JOIN camion ON Chauffeur.Id_camion = camion.Id_camion
+                                                             ORDER BY Chauffeur.Id_Chauffeur ASC"""
+                    mc_afficher.execute(strsql_chauffeurs_camions_afficher)
                 elif order_by == "ASC":
-                    valeur_id_chauffeur_selected_dictionnaire = {"value_id_chauffeur_selected": id_chauffeur_sel}
-                    strsql_chauffeurs_afficher = """SELECT * FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur_selected)s"""
-                    mc_afficher.execute(strsql_chauffeurs_afficher, valeur_id_chauffeur_selected_dictionnaire)
+                    valeur_id_chauffeur_camion_selected_dictionnaire = {
+                        "value_id_chauffeur_camion_selected": id_chauffeur_camion_sel}
+                    strsql_chauffeurs_camions_afficher = """SELECT Chauffeur.Id_Chauffeur, Chauffeur.Nom, Chauffeur.Prénom, 
+                                                                Chauffeur.CategoriePermis, Chauffeur.DateEngagement, 
+                                                                camion.Marque, camion.Modele
+                                                             FROM Chauffeur
+                                                             JOIN camion ON Chauffeur.Id_camion = camion.Id_camion
+                                                             WHERE Chauffeur.Id_Chauffeur = %(value_id_chauffeur_camion_selected)s"""
+                    mc_afficher.execute(strsql_chauffeurs_camions_afficher,
+                                        valeur_id_chauffeur_camion_selected_dictionnaire)
                 else:
-                    strsql_chauffeurs_afficher = """SELECT * FROM Chauffeur ORDER BY Id_Chauffeur DESC"""
-                    mc_afficher.execute(strsql_chauffeurs_afficher)
+                    strsql_chauffeurs_camions_afficher = """SELECT Chauffeur.Id_Chauffeur, Chauffeur.Nom, Chauffeur.Prénom, 
+                                                                Chauffeur.CategoriePermis, Chauffeur.DateEngagement, 
+                                                                camion.Marque, camion.Modele
+                                                             FROM Chauffeur
+                                                             JOIN camion ON Chauffeur.Id_camion = camion.Id_camion
+                                                             ORDER BY Chauffeur.Id_Chauffeur DESC"""
+                    mc_afficher.execute(strsql_chauffeurs_camions_afficher)
 
-                data_chauffeurs = mc_afficher.fetchall()
+                data_chauffeurs_camions = mc_afficher.fetchall()
 
-                if not data_chauffeurs and id_chauffeur_sel == 0:
+                if not data_chauffeurs_camions and id_chauffeur_camion_sel == 0:
                     flash("""La table "Chauffeur" est vide !!""", "warning")
-                elif not data_chauffeurs and id_chauffeur_sel > 0:
+                elif not data_chauffeurs_camions and id_chauffeur_camion_sel > 0:
                     flash(f"Le chauffeur demandé n'existe pas !!", "warning")
                 else:
                     flash(f"Données chauffeurs affichées !!", "success")
 
         except Exception as e:
             raise ExceptionChauffeursAfficher(f"fichier : {Path(__file__).name}  ;  "
-                                           f"{chauffeurs_afficher.__name__} ; "
-                                           f"{str(e)}")
+                                              f"{chauffeurs_camions_afficher.__name__} ; "
+                                              f"{str(e)}")
 
-    return render_template("chauffeurs/chauffeurs_afficher.html", data=data_chauffeurs)
+    return render_template("chauffeurs_camions/chauffeurs_camions_afficher.html", data=data_chauffeurs_camions)
 
-@bp.route("/chauffeurs_ajouter", methods=['GET', 'POST'])
-def chauffeurs_ajouter_wtf():
-    form = FormWTFAjouterChauffeurs()
+
+@app.route("/chauffeurs_camions_ajouter", methods=['GET', 'POST'])
+def chauffeurs_camions_ajouter_wtf():
+    form = FormWTFAjouterChauffeursCamions()
     if request.method == "POST":
         try:
             if form.validate_on_submit():
@@ -57,24 +78,25 @@ def chauffeurs_ajouter_wtf():
                     "id_camion": id_camion
                 }
 
-                strsql_insert_chauffeur = """INSERT INTO Chauffeur (Nom, Prénom, CategoriePermis, DateEngagement, Id_camion) 
+                strsql_insert_chauffeur_camion = """INSERT INTO Chauffeur (Nom, Prénom, CategoriePermis, DateEngagement, Id_camion) 
                                           VALUES (%(nom)s, %(prenom)s, %(categorie_permis)s, %(date_engagement)s, %(id_camion)s)"""
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_chauffeur, valeurs_insertion_dictionnaire)
+                    mconn_bd.execute(strsql_insert_chauffeur_camion, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
-                return redirect(url_for('gestion_chauffeurs.chauffeurs_afficher', order_by='ASC', id_chauffeur_sel=0))
+                return redirect(url_for('chauffeurs_camions_afficher', order_by='ASC', id_chauffeur_camion_sel=0))
 
         except Exception as e:
             raise ExceptionChauffeursAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                             f"{chauffeurs_ajouter_wtf.__name__} ; "
-                                             f"{str(e)}")
+                                                f"{chauffeurs_camions_ajouter_wtf.__name__} ; "
+                                                f"{str(e)}")
 
-    return render_template("chauffeurs/chauffeurs_ajouter_wtf.html", form=form)
+    return render_template("chauffeurs_camions/chauffeurs_camions_ajouter_wtf.html", form=form)
 
-@bp.route("/chauffeur_update/<int:id_chauffeur_update>", methods=['GET', 'POST'])
-def chauffeur_update_wtf(id_chauffeur_update):
-    form_update = FormWTFUpdateChauffeur()
+
+@app.route("/chauffeur_camion_update/<int:id_chauffeur_camion_update>", methods=['GET', 'POST'])
+def chauffeur_camion_update_wtf(id_chauffeur_camion_update):
+    form_update = FormWTFUpdateChauffeurCamion()
     try:
         if request.method == "POST" and form_update.validate_on_submit():
             nom = form_update.nom_update_wtf.data
@@ -84,7 +106,7 @@ def chauffeur_update_wtf(id_chauffeur_update):
             id_camion = form_update.id_camion_update_wtf.data
 
             valeur_update_dictionnaire = {
-                "id_chauffeur": id_chauffeur_update,
+                "id_chauffeur": id_chauffeur_camion_update,
                 "nom": nom,
                 "prenom": prenom,
                 "categorie_permis": categorie_permis,
@@ -92,93 +114,103 @@ def chauffeur_update_wtf(id_chauffeur_update):
                 "id_camion": id_camion
             }
 
-            str_sql_update_chauffeur = """UPDATE Chauffeur SET Nom = %(nom)s, Prénom = %(prenom)s, CategoriePermis = %(categorie_permis)s, 
+            str_sql_update_chauffeur_camion = """UPDATE Chauffeur SET Nom = %(nom)s, Prénom = %(prenom)s, CategoriePermis = %(categorie_permis)s, 
                                            DateEngagement = %(date_engagement)s, Id_camion = %(id_camion)s WHERE Id_Chauffeur = %(id_chauffeur)s"""
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_chauffeur, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_chauffeur_camion, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
-            return redirect(url_for('gestion_chauffeurs.chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=id_chauffeur_update))
+            return redirect(url_for('chauffeurs_camions_afficher', order_by="ASC",
+                                    id_chauffeur_camion_sel=id_chauffeur_camion_update))
 
         elif request.method == "GET":
-            str_sql_id_chauffeur = "SELECT Id_Chauffeur, Nom, Prénom, CategoriePermis, DateEngagement, Id_camion FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur)s"
-            valeur_select_dictionnaire = {"value_id_chauffeur": id_chauffeur_update}
+            str_sql_id_chauffeur_camion = "SELECT Id_Chauffeur, Nom, Prénom, CategoriePermis, DateEngagement, Id_camion FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur_camion)s"
+            valeur_select_dictionnaire = {"value_id_chauffeur_camion": id_chauffeur_camion_update}
             with DBconnection() as mybd_conn:
-                mybd_conn.execute(str_sql_id_chauffeur, valeur_select_dictionnaire)
-                data_nom_chauffeur = mybd_conn.fetchone()
+                mybd_conn.execute(str_sql_id_chauffeur_camion, valeur_select_dictionnaire)
+                data_nom_chauffeur_camion = mybd_conn.fetchone()
 
-            if data_nom_chauffeur:
-                form_update.nom_update_wtf.data = data_nom_chauffeur["Nom"]
-                form_update.prenom_update_wtf.data = data_nom_chauffeur["Prénom"]
-                form_update.categorie_permis_update_wtf.data = data_nom_chauffeur["CategoriePermis"]
-                form_update.date_engagement_update_wtf.data = data_nom_chauffeur["DateEngagement"]
-                form_update.id_camion_update_wtf.data = data_nom_chauffeur["Id_camion"]
+            if data_nom_chauffeur_camion:
+                form_update.nom_update_wtf.data = data_nom_chauffeur_camion["Nom"]
+                form_update.prenom_update_wtf.data = data_nom_chauffeur_camion["Prénom"]
+                form_update.categorie_permis_update_wtf.data = data_nom_chauffeur_camion["CategoriePermis"]
+                form_update.date_engagement_update_wtf.data = data_nom_chauffeur_camion["DateEngagement"]
+                form_update.id_camion_update_wtf.data = data_nom_chauffeur_camion["Id_camion"]
             else:
                 flash(f"Le chauffeur demandé n'existe pas !!", "warning")
-                return redirect(url_for('gestion_chauffeurs.chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=0))
+                return redirect(url_for('chauffeurs_camions_afficher', order_by="ASC", id_chauffeur_camion_sel=0))
 
     except Exception as e:
         raise ExceptionChauffeurUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
-                                          f"{chauffeur_update_wtf.__name__} ; "
+                                          f"{chauffeur_camion_update_wtf.__name__} ; "
                                           f"{str(e)}")
 
-    return render_template("chauffeurs/chauffeur_update_wtf.html", form_update=form_update, id_chauffeur_update=id_chauffeur_update)
+    return render_template("chauffeurs_camions/chauffeur_camion_update_wtf.html", form_update=form_update,
+                           id_chauffeur_camion_update=id_chauffeur_camion_update)
 
-@bp.route("/chauffeur_delete/<int:id_chauffeur_delete>", methods=['GET', 'POST'])
-def chauffeur_delete_wtf(id_chauffeur_delete):
-    form_delete = FormWTFDeleteChauffeur()
-    data_chauffeurs_associes = None
+
+@app.route("/chauffeur_camion_delete/<int:id_chauffeur_camion_delete>", methods=['GET', 'POST'])
+def chauffeur_camion_delete_wtf(id_chauffeur_camion_delete):
+    form_delete = FormWTFDeleteChauffeurCamion()
+    data_chauffeurs_camions_associes = None
     btn_submit_del = None
 
     try:
         if request.method == "POST" and form_delete.validate_on_submit():
             if form_delete.submit_btn_annuler.data:
-                return redirect(url_for('gestion_chauffeurs.chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=0))
+                return redirect(url_for("chauffeurs_camions_afficher", order_by="ASC", id_chauffeur_camion_sel=0))
+
+            choix_suppression = form_delete.choix_suppression.data
 
             if form_delete.submit_btn_conf_del.data:
-                data_chauffeurs_associes = session.get('data_chauffeurs_associes', None)
-                flash(f"Effacer le chauffeur de façon définitive de la BD !!!", "danger")
+                data_chauffeurs_camions_associes = session.get('data_chauffeurs_camions_associes', None)
+                flash(f"Effacer le {choix_suppression} de façon définitive de la BD !!!", "danger")
                 btn_submit_del = True
 
             if form_delete.submit_btn_del.data:
-                valeur_delete_dictionnaire = {"value_id_chauffeur": id_chauffeur_delete}
+                if choix_suppression == 'chauffeur':
+                    valeur_delete_dictionnaire = {"value_id_chauffeur_camion": id_chauffeur_camion_delete}
+                    str_sql_delete_chauffeur_camion = """DELETE FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur_camion)s"""
+                else:
+                    valeur_delete_dictionnaire = {"value_id_camion": data_chauffeurs_camions_associes[0]['Id_camion']}
+                    str_sql_delete_chauffeur_camion = """DELETE FROM camion WHERE Id_camion = %(value_id_camion)s"""
 
-                str_sql_delete_chauffeur = """DELETE FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur)s"""
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(str_sql_delete_chauffeur, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_chauffeur_camion, valeur_delete_dictionnaire)
 
-                flash(f"Chauffeur définitivement effacé !!", "success")
-                return redirect(url_for('gestion_chauffeurs.chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=0))
+                flash(f"{choix_suppression.capitalize()} définitivement effacé !!", "success")
+                return redirect(url_for('chauffeurs_camions_afficher', order_by="ASC", id_chauffeur_camion_sel=0))
 
         if request.method == "GET":
-            valeur_select_dictionnaire = {"value_id_chauffeur": id_chauffeur_delete}
+            valeur_select_dictionnaire = {"value_id_chauffeur_camion": id_chauffeur_camion_delete}
 
-            str_sql_chauffeurs_associes = """SELECT camion.Id_camion, camion.Marque, camion.Modele FROM camion
-                                             WHERE Id_camion IN (SELECT Id_camion FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur)s)"""
+            str_sql_chauffeurs_camions_associes = """SELECT camion.Id_camion, camion.Marque, camion.Modele FROM camion
+                                             WHERE Id_camion IN (SELECT Id_camion FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur_camion)s)"""
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_chauffeurs_associes, valeur_select_dictionnaire)
-                data_chauffeurs_associes = mydb_conn.fetchall()
-                session['data_chauffeurs_associes'] = data_chauffeurs_associes
+                mydb_conn.execute(str_sql_chauffeurs_camions_associes, valeur_select_dictionnaire)
+                data_chauffeurs_camions_associes = mydb_conn.fetchall()
+                session['data_chauffeurs_camions_associes'] = data_chauffeurs_camions_associes
 
-                str_sql_id_chauffeur = "SELECT Id_Chauffeur, Nom FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur)s"
-                mydb_conn.execute(str_sql_id_chauffeur, valeur_select_dictionnaire)
-                data_nom_chauffeur = mydb_conn.fetchone()
+                str_sql_id_chauffeur_camion = "SELECT Id_Chauffeur, Nom FROM Chauffeur WHERE Id_Chauffeur = %(value_id_chauffeur_camion)s"
+                mydb_conn.execute(str_sql_id_chauffeur_camion, valeur_select_dictionnaire)
+                data_nom_chauffeur_camion = mydb_conn.fetchone()
 
-                if data_nom_chauffeur:
-                    form_delete.nom_chauffeur_delete_wtf.data = data_nom_chauffeur["Nom"]
+                if data_nom_chauffeur_camion:
+                    form_delete.nom_chauffeur_delete_wtf.data = data_nom_chauffeur_camion["Nom"]
                 else:
                     flash(f"Le chauffeur demandé n'existe pas !!", "warning")
-                    return redirect(url_for('gestion_chauffeurs.chauffeurs_afficher', order_by="ASC", id_chauffeur_sel=0))
+                    return redirect(url_for('chauffeurs_camions_afficher', order_by="ASC", id_chauffeur_camion_sel=0))
 
             btn_submit_del = False
 
     except Exception as e:
         raise ExceptionChauffeurDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                          f"{chauffeur_delete_wtf.__name__} ; "
+                                          f"{chauffeur_camion_delete_wtf.__name__} ; "
                                           f"{str(e)}")
 
-    return render_template("chauffeurs/chauffeur_delete_wtf.html",
+    return render_template("chauffeurs_camions/chauffeur_camion_delete_wtf.html",
                            form_delete=form_delete,
                            btn_submit_del=btn_submit_del,
-                           data_chauffeurs_associes=data_chauffeurs_associes,
-                           id_chauffeur=id_chauffeur_delete)
+                           data_chauffeurs_camions_associes=data_chauffeurs_camions_associes,
+                           id_chauffeur_camion=id_chauffeur_camion_delete)
+

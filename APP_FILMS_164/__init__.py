@@ -45,9 +45,8 @@ try:
     from APP_FILMS_164.chauffeurs import gestion_chauffeurs_crud
     from APP_FILMS_164.chauffeurs import gestion_chauffeurs_wtf_forms
 
-    from APP_FILMS_164.chauffeurs_camions.gestion_chauffeurs_camions_crud import bp as chauffeurs_camions_bp
-
-    app.register_blueprint(chauffeurs_camions_bp, url_prefix='/gestion_chauffeurs_camions')
+    from APP_FILMS_164.chauffeurs_camions import gestion_chauffeurs_camions_crud
+    from APP_FILMS_164.chauffeurs_camions import gestion_chauffeurs_camions_wtf_forms
 
 except Exception as e:
     print(f"4567756434 Une erreur est survenue {type(e)} dans"

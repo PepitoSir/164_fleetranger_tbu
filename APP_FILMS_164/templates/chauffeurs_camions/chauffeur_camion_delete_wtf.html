@@ -2,16 +2,16 @@
 {% block title %}Effacer un Chauffeur et Camion{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
-            <h2>Effacer un Chauffeur et Camion</h2>
-            <form action="{{ url_for('gestion_chauffeurs_camions.chauffeur_delete_wtf', id_chauffeur_delete=id_chauffeur) }}" method="POST" novalidate>
+            <h2 class="mb-4">Effacer un Chauffeur et Camion</h2>
+            <form action="{{ url_for('chauffeur_camion_delete_wtf', id_chauffeur_camion_delete=id_chauffeur_camion) }}" method="POST" novalidate>
                 {{ form_delete.hidden_tag() }}
 
-                {% if data_chauffeurs_associes %}
+                {% if data_chauffeurs_camions_associes %}
                 <h3>Ce chauffeur est associé avec le(s) camion(s) suivant(s) :</h3>
-                <table class="table table-bordered table-sm">
+                <table class="table table-bordered table-sm mt-3 mb-4">
                     <thead>
                         <tr>
                             <th>ID Camion</th>
@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for camion in data_chauffeurs_associes %}
+                    {% for camion in data_chauffeurs_camions_associes %}
                         <tr>
                             <td>{{ camion.Id_camion }}</td>
                             <td>{{ camion.Marque }}</td>
@@ -30,26 +30,41 @@
                     </tbody>
                 </table>
                 {% else %}
-                <h3>Ce chauffeur n'est associé à aucun camion.</h3>
+                <h3 class="mb-4">Ce chauffeur n'est associé à aucun camion.</h3>
                 {% endif %}
 
-                <div class="form-group">
+                <div class="form-group mb-4">
                     <label>{{ form_delete.nom_chauffeur_delete_wtf.label }}</label>
                     {{ form_delete.nom_chauffeur_delete_wtf(class="form-control", readonly=true) }}<br>
                     {% for error in form_delete.nom_chauffeur_delete_wtf.errors %}
-                        <div class="alert alert-danger">{{ error }}</div>
+                        <div class="alert alert-danger mt-2">{{ error }}</div>
                     {% endfor %}
                 </div>
 
-                {{ form_delete.submit_btn_conf_del(class="btn btn-info") }}
+                <div class="form-group mb-4">
+                    <label>{{ form_delete.choix_suppression.label }}</label>
+                    <div class="d-flex align-items-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="choix_suppression" id="chauffeur" value="chauffeur" checked>
+                            <label class="form-check-label" for="chauffeur">Chauffeur</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="choix_suppression" id="camion" value="camion">
+                            <label class="form-check-label" for="camion">Camion</label>
+                        </div>
+                    </div>
+                    {% for error in form_delete.choix_suppression.errors %}
+                        <div class="alert alert-danger mt-2">{{ error }}</div>
+                    {% endfor %}
+                </div>
 
-                {% if btn_submit_del %}
-                    <button type="submit" name="submit_btn_del" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir effacer ce chauffeur définitivement ?');">
+                <div class="d-flex justify-content-between">
+                    {{ form_delete.submit_btn_annuler(class="btn btn-secondary") }}
+                    {{ form_delete.submit_btn_conf_del(class="btn btn-info") }}
+                    <button type="submit" name="submit_btn_del" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir effacer ce {{ form_delete.choix_suppression.data }} définitivement ?');">
                         Effacer définitivement
                     </button>
-                {% endif %}
-
-                {{ form_delete.submit_btn_annuler(class="btn btn-secondary") }}
+                </div>
             </form>
         </div>
     </div>

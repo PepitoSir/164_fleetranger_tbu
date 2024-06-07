@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Liste des Chauffeurs{% endblock %}
+{% block title %}Liste des Chauffeurs Camions{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Liste des Chauffeurs</h2>
+            <h2>Liste des Chauffeurs Camions</h2>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -21,21 +21,23 @@
                         <th>Prénom</th>
                         <th>Catégorie Permis</th>
                         <th>Date Engagement</th>
+                        <th>Camion</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for chauffeur in data %}
+                    {% for chauffeur_camion in data %}
                         <tr>
-                            <td>{{ chauffeur.Id_Chauffeur }}</td>
-                            <td>{{ chauffeur.Nom }}</td>
-                            <td>{{ chauffeur.Prénom }}</td>
-                            <td>{{ chauffeur.CategoriePermis }}</td>
-                            <td>{{ chauffeur.DateEngagement }}</td>
+                            <td>{{ chauffeur_camion.Id_Chauffeur }}</td>
+                            <td>{{ chauffeur_camion.Nom }}</td>
+                            <td>{{ chauffeur_camion.Prénom }}</td>
+                            <td>{{ chauffeur_camion.CategoriePermis }}</td>
+                            <td>{{ chauffeur_camion.DateEngagement }}</td>
+                            <td>{{ chauffeur_camion.Marque }} {{ chauffeur_camion.Modele }}</td>
                             <td class="text-center align-middle">
-                                <a class="btn btn-primary" href="{{ url_for('gestion_chauffeurs.chauffeurs_ajouter_wtf') }}" role="button">Ajouter</a>
-                                <a class="btn btn-warning" href="{{ url_for('gestion_chauffeurs.chauffeur_update_wtf', id_chauffeur_update=chauffeur.Id_Chauffeur) }}" role="button">Edit</a>
-                                <a class="btn btn-danger" href="{{ url_for('gestion_chauffeurs.chauffeur_delete_wtf', id_chauffeur_delete=chauffeur.Id_Chauffeur) }}" role="button">Delete</a>
+                                <a class="btn btn-primary" href="{{ url_for('chauffeurs_camions_ajouter_wtf') }}" role="button">Ajouter</a>
+                                <a class="btn btn-warning" href="{{ url_for('chauffeur_camion_update_wtf', id_chauffeur_camion_update=chauffeur_camion.Id_Chauffeur) }}" role="button">Edit</a>
+                                <a class="btn btn-danger" href="{{ url_for('chauffeur_camion_delete_wtf', id_chauffeur_camion_delete=chauffeur_camion.Id_Chauffeur) }}" role="button">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
